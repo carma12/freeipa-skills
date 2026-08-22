@@ -9,6 +9,6 @@ You can either install the skills to your preferred agent (e.g. by copying the s
 
 This repository is built as a Lola Marketplace, so, all you have to do is:
 ```
-lola market add freeipa-skills https://github.com/rjeffman/freeipa-skills
-lola mod install <the skill you want>
+lola mod add https://github.com/rjeffman/freeipa-skills
+lola install -s project freeipa-skills
 ```
