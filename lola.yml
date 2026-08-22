@@ -8,6 +8,9 @@ modules:
     description: |-
       Analyzes the logs for a given FreeIPA PR and provide an hypothesis
       for the failures found.
+      Some tools are required for running the skill scripts, such as curl,
+      jq, sed, unzip, tar, and Bash. Most are commonly found in most operating
+      systems.
     version: "1.0.0"
     repository: "https://github.com/rjeffman/freeipa-PR-analyzer"
     tags:
