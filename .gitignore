@@ -1,0 +1,13 @@
+.superpowers
+/docs/superpowers/
+
+.mcp.json
+
+# Agent specific configuration
+/.agents/
+/.cursor/
+/.opencode/
+/.claude/
+/.gemini/
+/.crush/
+.crushrc

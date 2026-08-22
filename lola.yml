@@ -1,0 +1,18 @@
+---
+name: "FreeIPA Skill Marketplace"
+description: >-
+  A collection of skills to aid the development of FreeIPA.
+version: "1.0.0"
+modules:
+  - name: "PR log analyzer"
+    description: |-
+      Analyzes the logs for a given FreeIPA PR and provide an hypothesis
+      for the failures found.
+    version: "1.0.0"
+    repository: "https://github.com/rjeffman/freeipa-PR-analyzer"
+    tags:
+      - FreeIPA
+      - Pull Request
+      - Azure
+      - Log Analysis
+...
