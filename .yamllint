@@ -1,0 +1,26 @@
+---
+ignore: |
+  /.tox/
+  /.venv/
+  /.github/
+  /.git/
+
+extends: default
+
+rules:
+  braces:
+    max-spaces-inside: 1
+    level: error
+  brackets:
+    max-spaces-inside: 1
+    level: error
+  truthy:
+    level: error
+  line-length:
+    max: 120
+  comments:
+    min-spaces-from-content: 1
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
+...
