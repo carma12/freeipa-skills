@@ -12,7 +12,7 @@ modules:
       jq, sed, unzip, tar, and Bash. Most are commonly found in most operating
       systems.
     version: "1.0.0"
-    repository: "https://github.com/rjeffman/freeipa-PR-analyzer"
+    repository: "https://github.com/rjeffman/freeipa-skills"
     tags:
       - FreeIPA
       - Pull Request
