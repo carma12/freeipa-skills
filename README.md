@@ -1,6 +1,6 @@
 # FreeIPA Skills Marketplace
 
-This is a collection of skills for AI agents to aid in the development of FreeIPA.
+This is a collection of skills for AI agents to aid in the development of [FreeIPA](https://freeipa.org).
 It is designed to be agent and model agnostic, and following the [Agent Skills Specification](https://agentskills.io/specification).
 
 You can either install the skills to your preferred agent (e.g. by copying the skill directory to `.agents/skill`) or use [lola](https://github.com/LobsterTrap/lola).
