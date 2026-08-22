@@ -295,6 +295,8 @@ results/pr-<PR_ID>/
 - Aggregated recommendations
 
 **File triage for efficiency:** When analyzing one job with many log files:
+
+*Azure DevOps artifacts:*
 1. **Primary:** `*_-_Run_tests.log` (test execution, pytest results)
 2. **Secondary:** `*_job.log` (tail for result codes + grep for error patterns)
 3. **Tertiary:** `*_-_Check_for_coredumps.log`, `*_-_Host_s_memory_statistics.log` (quick resource checks)
@@ -303,9 +305,15 @@ results/pr-<PR_ID>/
 6. **Test results:** `logs-*/logs-*/*/logs/nosetests.xml` (structured test results in XML format)
 7. **Supplementary:** Everything else (environment, metadata, installed packages, docker-compose config)
 
+*PR-CI artifacts (in `prci-*/` subdirectories):*
+1. **Primary:** `runner.log` (main test runner log with pytest output)
+2. **Secondary:** `metadata.json` (check `returncode` for exit status, `task_name` for test context)
+3. **Config:** `ipa-test-config.yaml`, `vars.yml` (test and job configuration)
+4. **Extended:** Browse the S3 URL in `job-url.txt` for per-test directories containing host journals and detailed logs
+
 For large files (5K+ lines): Read tail first, search for patterns, full read only if needed.
 
-Use `ls` to discover which `logs-*` directories exist and what files they contain before reading.
+Use `ls` to discover which `logs-*` and `prci-*` directories exist and what files they contain before reading.
 
 ## Integration with PR Context
 
@@ -339,12 +347,15 @@ This script:
 - Downloads only failed job logs (not passed jobs)
 - Saves logs to `./artifacts/pr-<PR_ID>/` with names like `<JOB_NAME>_-_Run_tests.log`
 - Downloads and extracts `logs-*` artifact archives into subdirectories
+- Queries GitHub commit statuses for PR-CI jobs (non-Azure CI)
+- Downloads PR-CI runner logs, metadata, and config to `./artifacts/pr-<PR_ID>/prci-*/`
 
 **If the script fails:** Report the error to the user. Common causes: no builds found for the PR number, network issues, or no failed jobs in the build.
 
 **Directory structure at analysis start:**
 ```
 ./artifacts/pr-<PR_ID>/
+  # Azure DevOps artifacts
   BASE_XMLRPC_base_1_to_2_-_job.log
   BASE_XMLRPC_base_1_to_2_-_Run_tests.log
   BASE_XMLRPC_base_1_to_2_-_Check_for_coredumps.log
@@ -374,9 +385,24 @@ This script:
           nosetests.xml
           ipaserver_install_logs.tar.gz
           ipaserver_uninstall_logs.tar.gz
+  # PR-CI artifacts (one directory per job context)
+  prci-fedora-latest_temp_commit/
+    job-url.txt              # URL to full PR-CI job page on S3
+    runner.log               # Main test runner log (decompressed from .gz)
+    metadata.json            # Job metadata (PR, task, returncode, etc.)
+    ipa-test-config.yaml     # Test configuration
+    vars.yml                 # Job configuration
 ./results/pr-<PR_ID>/
   (empty, analysis files created here)
 ```
+
+### PR-CI Log Analysis
+
+PR-CI artifacts use a different structure than Azure DevOps. Key differences:
+- **`runner.log`** is the primary log file (equivalent to Azure's `Run_tests.log`)
+- **`metadata.json`** contains job result info including `returncode` (non-zero = failure)
+- **`job-url.txt`** contains the S3 URL where additional per-test artifacts can be browsed (per-test directories with host journals, installed packages, etc.)
+- PR-CI runs on Vagrant VMs (not containers), so infrastructure signals differ from Azure
 
 ## Common Mistakes
 
